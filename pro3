@@ -1,0 +1,82 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+class DB; 
+class DM {
+    double meters;
+    double centimeters;
+public:
+    DM(double m = 0.0, double cm = 0.0) {
+        long extra_m = static_cast<long>(floor(cm / 100.0));
+        meters = m + extra_m;
+        centimeters = cm - extra_m * 100.0;
+        if (centimeters >= 100.0) { meters += 1; centimeters -= 100.0; }
+    }
+
+    void readDistance() {
+        cout << "Enter distance (meters centimeters): ";
+        cin >> meters >> centimeters;
+    }
+
+    void display() const {
+        cout << meters << " meters " << fixed << setprecision(2) << centimeters << " cm\n";
+    }
+
+    friend DM add(const DM& d1, const DB& d2);
+};
+
+class DB {
+    double feet;
+    double inches;
+public:
+    DB(double f = 0.0, double in = 0.0) {
+        long extra_f = static_cast<long>(floor(in / 12.0));
+        feet = f + extra_f;
+        inches = in - extra_f * 12.0;
+        if (inches >= 12.0) { feet += 1; inches -= 12.0; }
+    }
+
+    void readDistance() {
+        cout << "Enter distance (feet inches): ";
+        cin >> feet >> inches;
+    }
+
+    void display() const {
+        cout << feet << " feet " << fixed << setprecision(2) << inches << " inches\n";
+    }
+
+    friend DM add(const DM& d1, const DB& d2);
+};
+
+DM add(const DM& d1, const DB& d2) {
+    
+    double total_cm_dm = d1.meters * 100.0 + d1.centimeters;
+
+    
+    double total_inches = d2.feet * 12.0 + d2.inches;
+    double total_cm_db = total_inches * 2.54;
+
+    double sum_cm = total_cm_dm + total_cm_db;
+
+    long meters_part = static_cast<long>(floor(sum_cm / 100.0));
+    double centimeters_part = sum_cm - meters_part * 100.0;
+
+    return DM(static_cast<double>(meters_part), centimeters_part);
+}
+
+int main() {
+    DM d1;
+    DB d2;
+
+    d1.readDistance();
+    d2.readDistance();
+
+    DM result = add(d1, d2);
+
+    cout << "\nAfter addition:\n";
+    result.display();
+
+    return 0;
+}
