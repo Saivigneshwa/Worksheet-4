@@ -1,0 +1,88 @@
+#include <iostream>
+using namespace std;
+
+class Time {
+private:
+    int hr, min, sec;
+
+public:
+     Default constructor
+    Time() {
+        hr = min = sec = 0;
+    }
+
+  Parameterized constructor
+    Time(int h, int m, int s) {
+        hr = h;
+        min = m;
+        sec = s;
+        normalize();
+    }
+
+     Function to read time
+    void getdata() {
+        cout << "Enter hours: ";
+        cin >> hr;
+        cout << "Enter minutes: ";
+        cin >> min;
+        cout << "Enter seconds: ";
+        cin >> sec;
+        normalize();
+    }
+
+     Function to display time
+    void showdata() {
+        cout << hr << " hr " << min << " min " << sec << " sec" << endl;
+    }
+
+     Normalize time (convert overflow seconds to minutes, minutes to hours)
+    void normalize() {
+        if (sec >= 60) {
+            min += sec / 60;
+            sec = sec % 60;
+        }
+        if (min >= 60) {
+            hr += min / 60;
+            min = min % 60;
+        }
+    }
+
+    Operator overloading for addition
+    Time operator+(Time t) {
+        Time temp;
+        temp.hr = hr + t.hr;
+        temp.min = min + t.min;
+        temp.sec = sec + t.sec;
+        temp.normalize();
+        return temp;
+    }
+
+    Operator overloading for postfix increment
+    Time operator++(int) {
+        Time temp = *this; // copy current object
+        sec++;
+        normalize();
+        return temp;       // return old value
+    }
+};
+
+int main() {
+    Time t1, t2, t3;
+
+    cout << "Enter first time:" << endl;
+    t1.getdata();
+
+    cout << "Enter second time:" << endl;
+    t2.getdata();
+
+    t3 = t1 + t2;    using overloaded +
+    t1++;            using overloaded ++
+
+    cout << "\nAfter addition, t3 = ";
+    t3.showdata();
+
+    cout << "After incrementing t1 by 1 sec, t1 = ";
+    t1.showdata();
+
+    return 0;
+}
