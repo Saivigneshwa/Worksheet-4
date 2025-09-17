@@ -6,12 +6,12 @@ private:
     int hr, min, sec;
 
 public:
-     Default constructor
+     
     Time() {
         hr = min = sec = 0;
     }
 
-  Parameterized constructor
+ 
     Time(int h, int m, int s) {
         hr = h;
         min = m;
@@ -19,7 +19,7 @@ public:
         normalize();
     }
 
-     Function to read time
+     
     void getdata() {
         cout << "Enter hours: ";
         cin >> hr;
@@ -30,12 +30,12 @@ public:
         normalize();
     }
 
-     Function to display time
+     
     void showdata() {
         cout << hr << " hr " << min << " min " << sec << " sec" << endl;
     }
 
-     Normalize time (convert overflow seconds to minutes, minutes to hours)
+     
     void normalize() {
         if (sec >= 60) {
             min += sec / 60;
@@ -47,7 +47,7 @@ public:
         }
     }
 
-    Operator overloading for addition
+    
     Time operator+(Time t) {
         Time temp;
         temp.hr = hr + t.hr;
@@ -57,7 +57,7 @@ public:
         return temp;
     }
 
-    Operator overloading for postfix increment
+  
     Time operator++(int) {
         Time temp = *this; // copy current object
         sec++;
